@@ -1,123 +1,208 @@
 import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging from '@react-native-firebase/messaging';
 import {isSendbirdNotification, parseSendbirdNotification} from '@sendbird/uikit-utils';
 import {Platform} from 'react-native';
 import {requestNotifications} from 'react-native-permissions';
 import {navigationRef} from '../../App';
-import {refreshCollection, updateHasNewNotifications} from '../redux/slices/sendbird';
+import {initSendbird, refreshCollection, sb, updateHasNewNotifications} from '../redux/slices/sendbird';
 import {dispatch, store} from '../redux/store';
 
-const ANDROID_NOTIFICATION_CHANNEL_ID = 'default';
+class AndroidNotificationHandler {
+  ANDROID_NOTIFICATION_CHANNEL_ID = 'default';
 
-class NotificationHandler {
   constructor() {
     notifee.createChannel({
-      id: ANDROID_NOTIFICATION_CHANNEL_ID,
+      id: this.ANDROID_NOTIFICATION_CHANNEL_ID,
       name: 'Default Channel',
       importance: AndroidImportance.HIGH,
     });
   }
 
+  startOnAppOpened() {}
   startOnForeground() {
-    const unsubscribes = [];
-
-    if (Platform.OS === 'android') {
-      messaging().onMessage(async remoteMessage => {
+    messaging().onMessage(async remoteMessage => {
+      try {
+        console.log(remoteMessage.data)
         if (isSendbirdNotification(remoteMessage.data)) {
-          const sendbird = parseSendbirdNotification(remoteMessage.data);
-          const currentScreen = navigationRef.current?.getCurrentRoute()?.name;
-
-          if (
-            currentScreen === 'Notifications' &&
-            sendbird.channel.channel_url === store.getState().sendbird.feedChannel._url
-          ) {
+          if (isViewingChannel(remoteMessage.data)) {
             dispatch(updateHasNewNotifications(true));
           } else {
             dispatch(refreshCollection());
-            await this.displayNotification(remoteMessage, sendbird);
+            await this.displayNotification(remoteMessage);
           }
         }
-      });
-      unsubscribes.push(
-        // Specifies the action to take when the user presses the notification in the foreground.
-        notifee.onForegroundEvent(async ({type, detail}) => {
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    return () => {
+      notifee.onForegroundEvent(async ({type, detail}) => {
+        try {
           if (type === EventType.PRESS && detail.notification && isSendbirdNotification(detail.notification.data)) {
+            sb.markPushNotificationAsClicked(detail.notification.data);
             navigationRef.current?.navigate('Notifications');
           }
-        }),
-      );
-    }
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    };
+  }
+  startOnBackground() {
+   
+    // Specifies the action to take when the user presses the notification in the background.
+    notifee.onBackgroundEvent(async ({type, detail}) => {
+      console.log(detail.notification.data)
+      sb.markPushNotificationAsDelivered(detail.notification.data);
+      try {
+        if (type === EventType.PRESS && detail.notification && isSendbirdNotification(detail.notification.data)) {
+          sb.markPushNotificationAsClicked(detail.notification.data);
+          navigationRef.current?.navigate('Notifications');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
 
-    if (Platform.OS === 'ios') {
-      PushNotificationIOS.addEventListener('notification', async notification => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      try {
+        if (isSendbirdNotification(remoteMessage.data)) {
+          sb.markPushNotificationAsDelivered(remoteMessage.data);
+          await this.displayNotification(remoteMessage);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+  displayNotification = async message => {
+    try {
+      const sendbird = parseSendbirdNotification(message.data);
+      await notifee.displayNotification({
+        id: String(sendbird.message_id),
+        title: `${sendbird['push_title'] || sendbird.channel.name || 'Message received'}`,
+        body: sendbird.message,
+        data: message.data,
+        android: {
+          channelId: this.ANDROID_NOTIFICATION_CHANNEL_ID,
+          importance: 4,
+          largeIcon: sendbird.sender?.profile_url || sendbird.channel.channel_url,
+          circularLargeIcon: true,
+          pressAction: {id: 'default'},
+          showTimestamp: true,
+          timestamp: sendbird.created_at,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+class iOSNotificationHandler {
+  startOnAppOpened() {
+    PushNotificationIOS.getInitialNotification().then(async notification => {
+      try {
+        const data = notification?.getData();
+        const isClicked = data?.userInteraction === 1;
+        const localData = JSON.parse(await AsyncStorage.getItem('loginInformation'));
+        if (data) {
+          if (isClicked && isSendbirdNotification(data)) {
+            sb.markPushNotificationAsClicked(data);
+            if (store.getState().isAuthenticated) {
+              navigationRef.current?.navigate('Notifications');
+            } else if (localData.isSignedIn) {
+              dispatch(initSendbird(localData))
+                .unwrap()
+                .then(() => {
+                  navigationRef.current?.navigate('Notifications');
+                });
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+  startOnForeground() {
+    const unsubscribes = [];
+    PushNotificationIOS.addEventListener('notification', async notification => {
+      try {
         const data = notification.getData();
         if (isSendbirdNotification(data)) {
-          const sendbird = parseSendbirdNotification(data);
-          const currentScreen = navigationRef.current?.getCurrentRoute()?.name;
-          if (
-            currentScreen === 'Notifications' &&
-            sendbird.channel.channel_url === store.getState().sendbird.feedChannel._url
-          ) {
+          if (isViewingChannel(data)) {
             dispatch(updateHasNewNotifications(true));
           } else {
             dispatch(refreshCollection());
-            this.displayNotification(notification, sendbird);
-          }
-          // Specifies the action to take when the user presses the notification in the foreground.
-          if (data.userInteraction === 1) {
+            this.displayNotification(notification);
           }
         }
-      });
-      unsubscribes.push(() => PushNotificationIOS.removeEventListener('notification'));
-    }
+
+        notification.finish('UIBackgroundFetchResultNoData');
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    unsubscribes.push(() => PushNotificationIOS.removeEventListener('notification'));
+    unsubscribes.push(
+      notifee.onForegroundEvent(({type, detail}) => {
+        const data = detail.notification.data.stringData
+          ? JSON.parse(detail.notification.data.stringData)
+          : detail.notification.data;
+        switch (type) {
+          case EventType.PRESS:
+            try {
+              navigationRef.current?.navigate('Notifications');
+              break;
+            } catch (error) {
+              console.error(error);
+            }
+          case EventType.DELIVERED:
+            try {
+              sb.markPushNotificationAsDelivered(data);
+              break;
+            } catch (error) {
+              console.error(error);
+            }
+        }
+      }),
+    );
 
     return () => {
       unsubscribes.forEach(unsubscribe => unsubscribe());
     };
   }
+  startOnBackground() {}
 
-  startOnBackground() {
-    if (Platform.OS === 'android') {
-      // Specifies the action to take when the user presses the notification in the background.
-      notifee.onBackgroundEvent(async ({type, detail}) => {
-        if (type === EventType.PRESS && detail.notification && isSendbirdNotification(detail.notification.data)) {
-          navigationRef.current?.navigate('Notifications');
-        }
+  displayNotification = async message => {
+    try {
+      const sendbird = parseSendbirdNotification(message.getData());
+      await notifee.displayNotification({
+        id: String(sendbird.message_id),
+        title: `${sendbird['push_title'] || sendbird.channel.name || 'Message received'}`,
+        body: sendbird.message,
+        data: {stringData: JSON.stringify(message.getData())},
       });
-
-      messaging().setBackgroundMessageHandler(async remoteMessage => {
-        if (isSendbirdNotification(remoteMessage.data)) {
-          await this.displayNotification(remoteMessage, parseSendbirdNotification(remoteMessage.data));
-        }
-      });
+    } catch (error) {
+      console.error(error);
     }
-
-    if (Platform.OS === 'ios') {
-      /**
-       * Sendbird does not supports "silent notification(data-only message)"
-       * Notifications including alerts received in the background, automatically display as notification popups
-       */
-    }
-  }
-
-  displayNotification = async (remoteMessage, sendbird) => {
-    await notifee.displayNotification({
-      id: String(sendbird.message_id),
-      title: `${sendbird.channel.name || sendbird.sender?.name || 'Message received'}`,
-      body: sendbird.message,
-      data: remoteMessage.data,
-      android: {
-        channelId: ANDROID_NOTIFICATION_CHANNEL_ID,
-        importance: 4,
-        largeIcon: sendbird.sender?.profile_url || sendbird.channel.channel_url,
-        circularLargeIcon: true,
-        pressAction: {id: 'default'},
-        showTimestamp: true,
-        timestamp: sendbird.created_at,
-      },
-    });
   };
+}
+
+function isViewingChannel(data) {
+  const currentScreen = navigationRef.current?.getCurrentRoute()?.name;
+  if (currentScreen === 'Notifications') {
+    const sendbirdData = parseSendbirdNotification(data);
+    if (sendbirdData.channel.channel_url === store.getState().sendbird.feedChannel._url) {
+      return true;
+    }
+  } else {
+    return false;
+  }
 }
 
 export const requestPermissions = async () => {
@@ -125,4 +210,5 @@ export const requestPermissions = async () => {
   return result.status === 'granted' || result.status === 'limited';
 };
 
-export const notificationHandler = new NotificationHandler();
+export const notificationHandler =
+  Platform.OS === 'ios' ? new iOSNotificationHandler() : new AndroidNotificationHandler();

@@ -5,7 +5,7 @@ export default function LogoFooter() {
   return (
     <View style={styles.container}>
       <Text style={styles.versionText}>SDK v{lockJson.packages['node_modules/@sendbird/chat']['version']}</Text>
-      <Image style={styles.image} source={require('../../assets/sendbird_logo.png')} />
+      <Image style={styles.image} source={require('../../assets/SendbirdLogo.png')} />
     </View>
   );
 }

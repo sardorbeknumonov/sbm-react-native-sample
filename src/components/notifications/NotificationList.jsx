@@ -20,6 +20,8 @@ export default function NotificationList() {
   const isCategoryFilterEnabled = useSelector(state => state.sendbird.feedChannel.isCategoryFilterEnabled);
   const notifications = useSelector(state => state.sendbird.notifications);
 
+  const templates = useSelector(state => state.sendbird.templates);
+
   const NoNotifications = () => (
     <View style={styles.listEmpty}>
       <View>
@@ -114,7 +116,7 @@ export default function NotificationList() {
             onRefresh={onRefresh}
             viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
             refreshing={refreshing}
-            renderItem={({item}) => <Notification notification={item} />}
+            renderItem={({item}) => <Notification notification={item} template={templates[item.notificationData.templateKey]} />}
             showsVerticalScrollIndicator={false}
           />
         </View>

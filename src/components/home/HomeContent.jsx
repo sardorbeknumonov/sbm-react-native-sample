@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import ChevronRight from '../../assets/chevron-right.svg';
+import ChevronRight from '../../assets/ChevronRight.svg';
 import {handleSignOut, initCollection} from '../../redux/slices/sendbird';
 
 export default function HomeContent() {

@@ -53,8 +53,9 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(initSendbird.fulfilled, (state, action) => {
-      const {globalSettings, currentChannelUrl} = action.payload;
+      const {globalSettings, currentChannelUrl, templates} = action.payload;
       state.globalSettings = globalSettings;
+      state.templates = templates;
       state.currentChannelUrl = currentChannelUrl;
       state.isAuthenticated = true;
     });
@@ -78,6 +79,9 @@ const slice = createSlice({
     builder.addCase(refreshCollection.fulfilled, (state, action) => {
       state.hasNewNotifications = false;
     });
+    builder.addCase(refreshTemplateList.fulfilled, (state, action) => {
+      state.templates = action.payload;
+    });
   },
 });
 
@@ -98,7 +102,19 @@ export const {
 async function registerCollectionHandlers(dispatch, collection) {
   const handler = {
     onMessagesAdded: (context, channel, messages) => {
-      dispatch(addNotifications(messages));
+      let shouldRefreshTemplates = false;
+      const currentNotifications = getState().sendbird.notifications;
+      const newNotifications = messages.filter(
+        message => !currentNotifications.some(notification => notification.notificationId === message.notificationId),
+      );
+      newNotifications.forEach(message => {
+        if (!getState().sendbird.templates[message.template]) {
+          shouldRefreshTemplates = true;
+        }
+      });
+      shouldRefreshTemplates && dispatch(refreshTemplateList());
+
+      dispatch(addNotifications(newNotifications));
     },
     // Notifications cannot currently be updated (WIP)
     onMessagesUpdated: (context, channel, messages) => {},
@@ -193,6 +209,26 @@ export const initSendbird = createAsyncThunk('sendbird/init', async (data, {disp
     // You may not need these if you don't wish to determine theme via Sendbird Dashboard
     const globalSettings = JSON.parse((await sb.feedChannel.getGlobalNotificationChannelSetting()).jsonString);
 
+    const templates = await getTemplates();
+
+
+async function getTemplates(token = '') {
+  let hasMore = true;
+  let templates = {};
+  while (hasMore) {
+    const response = await sb.feedChannel.getNotificationTemplateListByToken(token);
+    const data = JSON.parse(response.notificationTemplateList.jsonString);
+    data.templates.forEach(template => {
+      !template['color_variables'] && (template['color_variables'] = {});
+      templates[template.key] = template;
+    });
+    token = response.token;
+    hasMore = response.hasMore;
+  }
+
+  return templates;
+}
+
     // Request permission for push notifications
     const {status} = await checkNotifications();
     if (status === 'granted') {
@@ -209,6 +245,7 @@ export const initSendbird = createAsyncThunk('sendbird/init', async (data, {disp
     return {
       globalSettings: globalSettings,
       currentChannelUrl: data.channelUrl,
+      templates: templates,
     };
   } catch (error) {
     console.log('initSendbird Error', error);
@@ -268,7 +305,16 @@ export const initCollection = createAsyncThunk('sendbird/initCollection', async 
         dispatch(addNotificationsByCache(messages));
       })
       .onApiResult((err, messages) => {
+
+        let shouldRefreshTemplates = false;
+        messages.forEach(message => {
+          if (!getState().sendbird.templates[message.template]) {
+            shouldRefreshTemplates = true;
+          }
+        });
+
         dispatch(addNotificationsByAPI(messages));
+        shouldRefreshTemplates && dispatch(refreshTemplateList());
       });
 
     return {
@@ -352,6 +398,11 @@ export const refreshCollection = createAsyncThunk('sendbird/refreshCollection', 
   }
 });
 
+
+export const refreshTemplateList = createAsyncThunk('sendbird/refreshTemplateList', async (data, {dispatch}) => {
+  return await getTemplates();
+});
+
 export const disposeCollection = createAsyncThunk('sendbird/disposeCollection', async (data, {dispatch, getState}) => {
   try {
     // Dispose of the collection to resolve huge gap
@@ -403,3 +454,8 @@ export const loadPrev = createAsyncThunk('sendbird/loadPrev', async (data, {getS
     throw error;
   }
 });
+
+
+
+//
+

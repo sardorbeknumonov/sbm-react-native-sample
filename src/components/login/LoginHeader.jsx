@@ -1,4 +1,5 @@
-import {Image, StyleSheet, Text, View, useColorScheme} from 'react-native';
+import {StyleSheet, Text, View, useColorScheme} from 'react-native';
+import SBMLogo from '../../assets/SBMLogo.svg';
 
 import {COLORS} from '../../constants/theme';
 
@@ -6,8 +7,8 @@ export default function LoginHeader() {
   const selectedTheme = useColorScheme();
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/notificationsLogo.png')} />
-      <Text style={styles.text(selectedTheme)}>React Native Sample App</Text>
+      <SBMLogo height={32} width={266.67} />
+      <Text style={styles.text(selectedTheme)}>React Native sample app</Text>
     </View>
   );
 }
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     lineHeight: 24,
     marginTop: 4,
-    marginBottom: 22,
+    marginBottom: 32,
     opacity: 0.88,
     color: COLORS[selectedTheme].text,
   }),

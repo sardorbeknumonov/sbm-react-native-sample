@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {initSendbird} from '../../redux/slices/sendbird';
+import {initCollection, initSendbird} from '../../redux/slices/sendbird';
 
 import {COLORS} from '../../constants';
 
@@ -24,10 +24,10 @@ export default function LoginForm() {
     AsyncStorage.getItem('loginInformation').then(data => {
       data = JSON.parse(data);
       setState({
-        appId: data?.appId || '',
-        userId: data?.userId || '',
-        token: data?.token || '',
-        channelUrl: data?.channelUrl || '',
+        appId: data?.appId || 'D714C6FE-E788-44AF-BB0D-329AD2756907',
+        userId: data?.userId || 'sardorbek',
+        token: data?.token || '102b9d28a72f270bc4dfcf54bd3dd53ce869d992',
+        channelUrl: data?.channelUrl || 'notification_15707_promote-product-data',
         isSignedIn: data?.isSignedIn || false,
       });
     });
@@ -42,6 +42,7 @@ export default function LoginForm() {
       dispatch(initSendbird(state))
         .unwrap()
         .then(() => {
+          dispatch(initCollection());
           setState({
             ...state,
             isLoading: false,
@@ -74,6 +75,7 @@ export default function LoginForm() {
       dispatch(initSendbird(state))
         .unwrap()
         .then(() => {
+          dispatch(initCollection());
           setState({
             ...state,
             isLoading: false,
@@ -94,7 +96,7 @@ export default function LoginForm() {
         hasError: true,
         errorMessage: error.message,
       });
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -121,7 +123,7 @@ export default function LoginForm() {
         autoCapitalize="none"
         value={state.token}
         onChangeText={text => handleTextChange('token', text)}
-        placeholder="Session/Access Token"
+        placeholder="Token"
         placeholderTextColor="#00000050"
       />
       <TextInput
@@ -134,7 +136,7 @@ export default function LoginForm() {
       />
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        {state.isLoading ? <ActivityIndicator /> : <Text style={styles.buttonText}>Sign In</Text>}
+        {state.isLoading ? <ActivityIndicator /> : <Text style={styles.buttonText}>Sign in</Text>}
       </TouchableOpacity>
 
       {state.hasError && (
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 48,
+    marginTop: 8,
     backgroundColor: COLORS.purple,
     borderRadius: 4,
     justifyContent: 'center',

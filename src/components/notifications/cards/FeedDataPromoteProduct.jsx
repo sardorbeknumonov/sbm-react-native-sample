@@ -5,21 +5,27 @@ import {parseThemeColor} from '../../../utils';
 
 // Text only no buttons
 
-export default function Template04({notification}) {
+export default function FeedDataPromoteProduct({notification, template_data}) {
   const selectedTheme = useColorScheme();
   const globalSettings = useSelector(state => state.sendbird.globalSettings.themes[0]);
   const variables = notification.notificationData.templateVariables;
-
+  console.log(template_data)
   return (
     <View style={styles.wrapper(globalSettings.notification, selectedTheme)}>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText(selectedTheme)}>{variables.header}</Text>
+        <Text style={styles.headerText(selectedTheme)}>{formatString(template_data['title'], variables)}</Text>
       </View>
       <View>
-        <Text style={styles.bodyText(selectedTheme)}>{variables.content}</Text>
+        <Text style={styles.bodyText(selectedTheme)}>{formatString(template_data['body'], variables)}</Text>
       </View>
     </View>
   );
+}
+
+function formatString(template, values) {
+  return template.replace(/{(\w+)}/g, function(match, key) {
+      return typeof values[key] !== 'undefined' ? values[key] : match;
+  });
 }
 
 const styles = StyleSheet.create({

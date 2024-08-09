@@ -1,41 +1,425 @@
 {
   "project_info": {
-    "project_number": "182696163448",
-    "firebase_url": "https://sendbird-b58d6.firebaseio.com",
-    "project_id": "sendbird-b58d6",
-    "storage_bucket": "sendbird-b58d6.appspot.com"
+    "project_number": "792205050595",
+    "firebase_url": "https://onboarding-sample.firebaseio.com",
+    "project_id": "onboarding-sample",
+    "storage_bucket": "onboarding-sample.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:182696163448:android:8cf7199483f20d48ad958d",
+        "mobilesdk_app_id": "1:792205050595:android:8c24da2351f5889f10fbd6",
         "android_client_info": {
-          "package_name": "com.sendbird.com.notifications.reactnative"
+          "package_name": "com.annyong.sampleuikit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "182696163448-4ffjq6onja6tmq37dnkoudfdh26jqpdf.apps.googleusercontent.com",
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC7xcrfWsoMGdNmCZc1Vt9ZyT3IS_5TSn4"
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "182696163448-4ffjq6onja6tmq37dnkoudfdh26jqpdf.apps.googleusercontent.com",
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "182696163448-0kle49k5lb7pi1cbrn2193sttbfjae02.apps.googleusercontent.com",
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sendbird.com.notifications.reactnative"
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:f30ad81c6dd9e56210fbd6",
+        "android_client_info": {
+          "package_name": "com.beknumonov.mysendbirdsampleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:d99a8dd548316d5b10fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.calls.quickstart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:f07cfb6e75a9d37610fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.chat.sample.flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:c8bf316ddb9f587f10fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.com.notifications.reactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:91ef643ea9fa308b10fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.sample.sbm.reactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:1fa553a2be9d1f5010fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.sample4v"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:e0bedb17efc4b80310fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.sbsample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:9e5c33f28d23191710fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.sendbirdsampleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-nm3ng8atju0oah28q5cc7kju827rm1km.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sendbird.sendbirdsampleapp",
+            "certificate_hash": "5c4a14fbf40fe81d39e2b7cefffa91246d03ebc2"
+          }
+        },
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:d012349d73896cda10fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.sendbirdsampleapp.calls"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-mqmcg5h8vlqjos049q33lh0bd79e6h0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sendbird.sendbirdsampleapp.calls",
+            "certificate_hash": "5c4a14fbf40fe81d39e2b7cefffa91246d03ebc2"
+          }
+        },
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792205050595:android:8f906758397e029110fbd6",
+        "android_client_info": {
+          "package_name": "com.sendbird.sendbirdsamplecalls"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792205050595-au6k07kvem8jir0f67g4btijc10dl811.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sendbird.sendbirdsamplecalls",
+            "certificate_hash": "5c4a14fbf40fe81d39e2b7cefffa91246d03ebc2"
+          }
+        },
+        {
+          "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACyz08iOduFTM_PtQpt89Sbi7v1XHLyPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792205050595-oaopsemh9fgiepde33ur6fr1ljm9ghje.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "792205050595-3rhkcjt14b31fi72heisqs07uqm6f1ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sendbird.calls.quickstart.bek"
               }
             }
           ]

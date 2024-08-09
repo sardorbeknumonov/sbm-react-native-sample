@@ -9,6 +9,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import NotificationsScreen from './src/screens/NotificationsScreen';
 import {notificationHandler, requestPermissions} from './src/utils';
+import SettingsScreen from './src/screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
 export const navigationRef = createNavigationContainerRef();
@@ -56,6 +57,7 @@ function App() {
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Notifications" component={NotificationsScreen} />
+            <Stack.Screen name="Settings" component={SettingsScreen} />
           </>
         ) : (
           <Stack.Screen name="Login" component={LoginScreen} options={{animationTypeForReplace: 'pop'}} />
